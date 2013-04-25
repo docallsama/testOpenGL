@@ -8,7 +8,6 @@
 
 #import "OpenGLView.h"
 #import "teapot.h"
-#import "CC3GLMatrix.h"
 
 @implementation OpenGLView
 
@@ -19,7 +18,7 @@ typedef struct {
     float Normal[3]; //光源
 } Vertex;
 
-Vertex Vertices[24168] = {};
+Vertex Vertices[124168] = {};
 
 - (void)setupVBOs {
     
@@ -145,7 +144,7 @@ Vertex Vertices[24168] = {};
         [self setupVBOs];
         
         _fishTexture = [self setupTexture:@"banana.jpg"];
-//        _catTexture = [self setupTexture:@"Grill_me.jpg"];
+//        _catTexture = [self setupTexture:@"feifei.png"];
         
         [self setupDisplayLink];
     }
@@ -242,10 +241,10 @@ Vertex Vertices[24168] = {};
         positive = 1;
     }
     
-    rotate += 1;
-    if (rotate >= 360) {
-        rotate = 0;
-    }
+//    rotate += 1;
+//    if (rotate >= 360) {
+//        rotate = 0;
+//    }
     
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
@@ -254,9 +253,9 @@ Vertex Vertices[24168] = {};
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
     
-    CC3GLMatrix *modelView = [CC3GLMatrix matrix];
+    modelView = [CC3GLMatrix matrix];
     [modelView populateFromTranslation:CC3VectorMake(0, 0, -9)];
-    [modelView rotateBy:CC3VectorMake(rotate, rotate, 0)];
+    [modelView rotateBy:CC3VectorMake(rotateY, rotate, 0)];
 
     [modelView scaleBy:CC3VectorMake(8, 8, 8)];
     
@@ -290,6 +289,14 @@ Vertex Vertices[24168] = {};
     glDrawArrays(GL_TRIANGLES, 0, teapotNumVerts);
     
     [_context presentRenderbuffer:GL_RENDERBUFFER];
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch *touch = [touches anyObject];
+    CGPoint location = [touch locationInView:self];
+    rotate = location.x;
+    rotateY = location.y;
 }
 
 - (void)dealloc

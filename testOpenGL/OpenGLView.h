@@ -11,6 +11,8 @@
 #include <OpenGLES/ES2/gl.h>
 #include <OpenGLES/ES2/glext.h>
 
+#import "CC3GLMatrix.h"
+
 @interface OpenGLView : UIView {
     CAEAGLLayer *_eaglLayer;
     EAGLContext *_context;
@@ -34,6 +36,9 @@
     float coordinate_z;
     float positive;
     float rotate;
+    float rotateY;
+    
+    CC3GLMatrix *modelView;
 }
 
 @end
